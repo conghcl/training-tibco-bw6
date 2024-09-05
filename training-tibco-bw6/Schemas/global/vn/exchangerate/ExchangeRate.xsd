@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.example.org/ExchangeRate" 
+	xmlns:tns="http://www.example.org/ExchangeRate" 
+	elementFormDefault="qualified">
+
+	<!-- get exchange request  -->
+	<!-- Data types declarations -->
+	<complexType name="CurrencyRate">
+		<sequence>
+			<element name="CurrencyCode" type="string" minOccurs="0"></element>
+			<element name="Rate" type="string" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	
+	
+	<complexType name="ExchangeRateRequestType">
+		<sequence>
+			<element name="CurrencyCode" type="string" minOccurs="0" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+	
+	<!-- Response type -->
+	
+	<complexType name="ExchangeRateResponseType">
+		<sequence>
+			<element name="Rates" type="tns:CurrencyRate" minOccurs="1" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+	
+	<element name="ExchangeRateRequest" type="tns:ExchangeRateRequestType"></element>
+	<element name="ExchangeRateResponse" type="tns:ExchangeRateResponseType"></element>
+	
+	<simpleType name="OperationEnum">
+		<restriction base="string">
+			<enumeration value="Add"></enumeration>
+			<enumeration value="Update"></enumeration>
+			<enumeration value="Delete"></enumeration>
+		</restriction>
+	
+	</simpleType>
+	
+	<complexType name="CurrencyOperationRequestType">
+		<sequence>
+			<element name="OperationType" type="tns:OperationEnum"></element>
+			<element type="tns:CurrencyRate" name="CurrencyRate" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="CurrencyOperationResponseType">
+        <sequence>
+            <element name="Status" type="string"/>
+            <element name="Message" type="string" minOccurs="0"/>
+        </sequence>
+    </complexType>
+	
+	<element  name="CurrencyOperationRequest" type="tns:CurrencyOperationRequestType"></element>
+	<element name="CurrencyOperationResponse" type="tns:CurrencyOperationResponseType"></element>
+
+</schema>

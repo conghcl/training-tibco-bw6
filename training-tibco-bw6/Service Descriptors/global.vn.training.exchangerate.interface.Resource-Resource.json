@@ -1,0 +1,73 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Resource",
+    "description" : "Resource service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/resource" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-resource",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ExchangeRateRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a ExchangeRateResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/ExchangeRateResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Rates" : {
+      "type" : "object",
+      "properties" : {
+        "CurrencyCode" : {
+          "type" : "string"
+        },
+        "Rate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ExchangeRateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "CurrencyCode" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ExchangeRateResponse" : {
+      "type" : "object",
+      "required" : [ "Rates" ],
+      "properties" : {
+        "Rates" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Rates",
+            "uniqueItems" : false
+          }
+        }
+      }
+    }
+  }
+}
