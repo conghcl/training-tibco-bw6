@@ -34,6 +34,32 @@
           }
         }
       }
+    },
+    "/exchange-rate/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-exchange-rate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ExchangeRateRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a ExchangeRateResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/ExchangeRateResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	targetNamespace="http://www.bidv.com/common/envelope/serviceenvelope/1.0"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:cmd-envelope="http://www.bidv.com/common/envelope/serviceenvelope/1.0" xmlns:cmd-header="http://www.bidv.com/common/envelope/commonheader/1.0">
+	<import schemaLocation="CommonHeader.xsd" namespace="http://www.bidv.com/common/envelope/commonheader/1.0"></import>
+    <element name="BaseServiceEnvelopeRequest"
+    	type="cmd-envelope:BaseServiceEnvelopeRequestType">
+    </element>
+    
+    <complexType name="BaseServiceEnvelopeRequestType">
+    	<sequence>
+    		<element ref="cmd-header:Header"></element>
+    	</sequence>
+    </complexType>
+
+
+    <element name="BaseServiceEnvelopeResponse"
+    	type="cmd-envelope:BaseServiceEnvelopeResponseType">
+    </element>
+    
+    <complexType name="BaseServiceEnvelopeResponseType">
+    	<sequence>
+    		<element ref="cmd-header:Header"></element>
+    		<element ref="cmd-header:ResponseStatus"></element>
+    	</sequence>
+    </complexType>
+</schema>

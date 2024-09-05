@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmlns:subject="http://xsd.tns.tibco.com/trinity/models/identity/subject" xmi:id="_aVEaIWs7Ee-6LMKccht90Q" name="training-tibco-bw6.JDBCConnectionResourceFXRT" type="jdbc:JdbcDataSource">
+  <jndi:reference xmi:id="_aVROcGs7Ee-6LMKccht90Q" key="subjectJndiName" type="subject:SubjectConfiguration" value=""/>
+  <jndi:configuration xsi:type="jdbc:JdbcDataSource" xmi:id="_aVROcWs7Ee-6LMKccht90Q" username="fxrt" password="#!mFlOg+DJrtgbh2wdJGuJL5tRb7YYg3YF">
+    <connectionConfig xsi:type="jdbc:NonXaConnection" xmi:id="_aVR1gGs7Ee-6LMKccht90Q" jdbcDriver="oracle.jdbc.OracleDriver" dbURL="jdbc:oracle:thin:@10.53.130.78:1521/ORCLPDB"/>
+    <connectionProperties xmi:id="_LXHgMGtTEe-6LMKccht90Q" key="jarFile" value="ojdbc"/>
+  </jndi:configuration>
+</jndi:namedResource>

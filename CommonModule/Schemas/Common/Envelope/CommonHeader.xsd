@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.bidv.com/common/envelope/commonheader/1.0" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cmd-header="http://www.bidv.com/common/envelope/commonheader/1.0">
+   <element name="Common" type="cmd-header:CommonType"></element>
+    
+    <complexType name="CommonType">
+    	<sequence>
+    		<element ref="cmd-header:BusinessDomain"></element>
+    		<element ref="cmd-header:ServiceVersion"></element>
+            <element name="MessageId" type="string"></element>
+            <element ref="cmd-header:TransactionId" maxOccurs="1" minOccurs="0"></element>
+            <element name="RequestRefDate" type="string" minOccurs="0">
+    		</element>
+            <element ref="cmd-header:MessageTimestamp"></element>
+    		<element ref="cmd-header:AdditionalInformation" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="Client" type="cmd-header:ClientType"></element>
+    
+    <complexType name="ClientType">
+    	<sequence>
+            <element ref="cmd-header:SourceAppID"></element>
+            <element ref="cmd-header:TargetAppIDs" minOccurs="0"></element>
+    		<element ref="cmd-header:UserDetail" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="Header" type="cmd-header:HeaderType"></element>
+    
+    <complexType name="HeaderType">
+    	<sequence>
+    		<element ref="cmd-header:Common"></element>
+    		<element ref="cmd-header:Client"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ResponseStatus" type="cmd-header:ResponseStatusType"></element>
+    
+    <complexType name="ResponseStatusType">
+    	<sequence>
+    		<element name="Status" type="string"></element>
+    		<element name="GlobalErrorCode" type="string" minOccurs="0"></element>
+    		<element name="GlobalErrorDescription" type="string" minOccurs="0"></element>
+    		<element ref="cmd-header:ErrorInfo" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ErrorInfo" type="cmd-header:ErrorInfoType">
+    </element>
+    
+    <complexType name="ErrorInfoType">
+    	<sequence>
+    		<element name="SourceAppID" type="string" minOccurs="1"></element>
+    		<element name="ErrorCode" type="string" minOccurs="1"></element>
+    		<element name="ErrorDesc" type="string" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="TargetAppIDs" type="cmd-header:TargetAppIDsType"></element>
+    
+    <complexType name="TargetAppIDsType">
+    	<sequence>
+    		<element ref="cmd-header:TargetAppID" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="UserDetail" type="cmd-header:UserDetailType"></element>
+    
+    <complexType name="UserDetailType">
+    	<sequence>
+    		<element name="UserId" type="string"></element>
+    		<element name="UserRole" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="UserPassword" type="base64Binary"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="BusinessDomain" type="string"></element>
+
+    <element name="ServiceVersion" type="string"></element>
+
+    <element name="TransactionId" type="string"></element>
+
+    <element name="ConversationId" type="string"></element>
+
+    <element name="MessageType" type="string"></element>
+
+    <element name="ObjectId" type="string"></element>
+
+    <element name="ObjectTimestamp" type="dateTime"></element>
+
+    <element name="MessageTimestamp" type="dateTime"></element>
+
+    <element name="SourceAppID" type="string"></element>
+
+    <element name="TargetAppID" type="string"></element>
+
+    <element name="UserId" type="string"></element>
+
+    <element name="UserRole" type="string"></element>
+
+    <element name="UserPassword" type="string"></element>
+
+    <element name="NameValuePairs" type="cmd-header:NameValuePairsType">
+    </element>
+    
+    <complexType name="NameValuePairsType">
+    	<sequence>
+    		<element name="Name" type="string"></element>
+    		<element name="Value" type="string"></element>
+    	</sequence>
+    </complexType>
+
+
+    <element name="AdditionalInformation" type="cmd-header:AdditionalInformationType">
+    </element>
+    
+    <complexType name="AdditionalInformationType">
+    	<sequence>
+    		<element ref="cmd-header:NameValuePairs" minOccurs="0" maxOccurs="unbounded">
+    		</element>
+    		<element name="Other" type="string" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+</schema>

@@ -1,0 +1,213 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Resource",
+    "description" : "Resource service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/exchange-rate-get-all/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-resource",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ExchangeRateRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a ExchangeRateResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/ExchangeRateResponse"
+            }
+          }
+        }
+      }
+    },
+    "/exchange-rate-add/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-exchange-rate-add",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/CurrencyOperationRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a CurrencyOperationResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyOperationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/exchange-rate/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-exchange-rate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ExchangeRateRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a ExchangeRateResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/ExchangeRateResponse"
+            }
+          }
+        }
+      }
+    },
+    "/exchange-rate-delete/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-exchange-rate-delete",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/CurrencyOperationRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a CurrencyOperationResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyOperationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/exchange-rate-upadate/" : {
+      "post" : {
+        "summary" : "postResource",
+        "description" : "postResource",
+        "operationId" : "post-exchange-rate-upadate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/CurrencyOperationRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a CurrencyOperationResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyOperationResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Rates" : {
+      "type" : "object",
+      "properties" : {
+        "CurrencyCode" : {
+          "type" : "string"
+        },
+        "Rate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CurrencyRate" : {
+      "type" : "object",
+      "properties" : {
+        "CurrencyCode" : {
+          "type" : "string"
+        },
+        "Rate" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ExchangeRateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "CurrencyCode" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CurrencyOperationRequest" : {
+      "type" : "object",
+      "required" : [ "OperationType" ],
+      "properties" : {
+        "OperationType" : {
+          "type" : "string",
+          "enum" : [ "Add", "Update", "Delete" ]
+        },
+        "CurrencyRate" : {
+          "$ref" : "#/definitions/CurrencyRate"
+        }
+      }
+    },
+    "CurrencyOperationResponse" : {
+      "type" : "object",
+      "required" : [ "Status" ],
+      "properties" : {
+        "Status" : {
+          "type" : "string"
+        },
+        "Message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ExchangeRateResponse" : {
+      "type" : "object",
+      "required" : [ "Rates" ],
+      "properties" : {
+        "Rates" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Rates",
+            "uniqueItems" : false
+          }
+        }
+      }
+    }
+  }
+}

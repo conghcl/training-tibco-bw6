@@ -1,0 +1,12 @@
+{"records": [
+    {
+        "jsonSchemaLocation": "/training-tibco-bw6/Service Descriptors/global.vn.training.exchangerate.interface.Resource-Resource.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/ExchangeRate"
+    },
+    {
+        "jsonSchemaLocation": "/training-tibco-bw6/Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/ExchangeRate"
+    }
+]}

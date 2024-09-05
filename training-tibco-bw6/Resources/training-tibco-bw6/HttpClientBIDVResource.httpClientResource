@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:http="http://xsd.tns.tibco.com/bw/models/sharedresource/httpclient" xmlns:httpproxy="http://xsd.tns.tibco.com/bw/models/sharedresource/httpproxy" xmlns:id="http://www.tibco.com/ws/2013/11/identity" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmlns:sca_ext="http://www.tibco.com/ns/sca/201311" xmlns:sslclient="http://xsd.tns.tibco.com/bw/sharedresource/trinity/models/sslclient" xmi:id="_khhTIWtTEe-6LMKccht90Q" name="training-tibco-bw6.HttpClientBIDVResource" type="http:HttpClientConfiguration">
+  <identitySet xmi:id="_IRD0kGtbEe-WS5bGNqRjYA" appliesTo="namedResource" name="HttpClientIdentitySet" provides="confidentiality">
+    <sca_ext:intentMap xmi:id="_IRD0kWtbEe-WS5bGNqRjYA" provides="sca_ext:confidentiality">
+      <sca_ext:qualifier xmi:id="_IRD0kmtbEe-WS5bGNqRjYA" name="transport">
+        <id:IdentityReference xmi:id="_IREboGtbEe-WS5bGNqRjYA" URI="training-tibco-bw6.SSLClientResource" type="sslclient:SSLClientConfiguration"/>
+      </sca_ext:qualifier>
+    </sca_ext:intentMap>
+  </identitySet>
+  <jndi:reference xmi:id="_C_vr8GtbEe-WS5bGNqRjYA" key="proxyConfigurationName" type="httpproxy:ProxyConfiguration" value=""/>
+  <jndi:configuration xsi:type="http:HttpClientConfiguration" xmi:id="_khpO8GtTEe-6LMKccht90Q" useSSL="true" httpClientVersion="httpcomponents" retryCount="3" idleConnectionTimeout="3000" cmdExecutionIsolationStrategy="COUNT_BASED" cmdExecutionIsolationTimeout="10" cmdExecutionIsolationInterruptOnTimeout="true" cmdExecutionIsolationSemaphoreMaxConcRequests="8" cmdCircuitBreakerRequestVolumeThreshold="50" cmdCircuitBreakerSleepWindow="100" cmdCircuitBreakerErrorThresholdPercentage="100" cmdMetricsRollingStatsTime="100" cmdMetricsRollingStatsNumBuckets="60000" cmdMetricsHealthSnapshotInterval="500" tpCoreSize="10" tpMaxQueueSize="60000" tpQueueSizeRejectionThreshold="6000" tpKeepAliveTime="1">
+    <tcpDetails xmi:id="_khs5UGtTEe-6LMKccht90Q" host="bidv.com.vn" port="443"/>
+  </jndi:configuration>
+</jndi:namedResource>

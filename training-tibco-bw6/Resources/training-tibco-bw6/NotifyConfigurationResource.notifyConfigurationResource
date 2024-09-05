@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ExchangeRate="http://www.example.org/ExchangeRate" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmlns:notifyconfiguration="http://ns.tibco.com/bw/sharedresource/notifyconfiguration" xmi:id="_S5FpwWuIEe-WS5bGNqRjYA" name="training-tibco-bw6.NotifyConfigurationResource" type="notifyconfiguration:NotifyConfiguration">
+  <imports xmi:id="_UxRTYGuIEe-WS5bGNqRjYA" importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/ExchangeRate"/>
+  <jndi:configuration xsi:type="notifyconfiguration:NotifyConfiguration" xmi:id="_S5He8GuIEe-WS5bGNqRjYA" schemaElementQname="ExchangeRate:NoticeRateChange"/>
+</jndi:namedResource>

@@ -1,16 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:rest="http://xsd.tns.tibco.com/bw/models/binding/rest" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scact="http://xsd.tns.tibco.com/amf/models/sca/componentType" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_iCw8EGsvEe-6LMKccht90Q" targetNamespace="http://tns.tibco.com/bw/composite/training-tibco-bw6" name="training-tibco-bw6" compositeext:version="1.0.0" compositeext:formatVersion="2">
-  <sca:service xmi:id="_Xsq1gGswEe-6LMKccht90Q" name="resource" promote="ComponentResource/resource">
+  <sca:service xmi:id="_Xsq1gGswEe-6LMKccht90Q" name="exchange-rate-get-all" promote="ComponentResource/exchange-rate-get-all">
     <sca:interface.wsdl xmi:id="_XsvG8GswEe-6LMKccht90Q" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(resource)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/Resource.bwp"/>
-    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_Xs3p0GswEe-6LMKccht90Q" name="RestService" path="/resource" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.Resource-Resource.json">
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_Xs3p0GswEe-6LMKccht90Q" name="RestService" path="/exchange-rate-get-all/" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json">
       <operation xmi:id="_Xs9JYGswEe-6LMKccht90Q" operationName="post" nickname="post-resource" httpMethod="POST" notes="postResource" responseStyle="element" useNullForEmptyValuesRequest="true" outputPartName="item">
         <clientFormat>json</clientFormat>
         <clientRequestFormat>json</clientRequestFormat>
       </operation>
-      <parameters xmi:id="_XufacGswEe-6LMKccht90Q"/>
       <advancedConfig xmi:id="_Xs7UMGswEe-6LMKccht90Q" blockingQueueSize="2147483647"/>
     </scaext:binding>
     <scact:bindingAdjunct xmi:id="_Xs9JYWswEe-6LMKccht90Q" bindingName="RestService"/>
+  </sca:service>
+  <sca:service xmi:id="_EmCtoGtWEe-6LMKccht90Q" name="exchange-rate" promote="ComponentResource/exchange-rate">
+    <sca:interface.wsdl xmi:id="_EmCtpGtWEe-6LMKccht90Q" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/Resource.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_EmD7wGtWEe-6LMKccht90Q" name="RestService1" path="/exchange-rate/" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.Resource-Resource.json">
+      <operation xmi:id="_EmD7wmtWEe-6LMKccht90Q" operationName="post" nickname="post-exchange-rate" httpMethod="POST" notes="postResource" responseStyle="element" requestStyle="element" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_EmW2sGtWEe-6LMKccht90Q"/>
+      <advancedConfig xmi:id="_EmD7wWtWEe-6LMKccht90Q" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_EmD7w2tWEe-6LMKccht90Q" bindingName="RestService1"/>
+  </sca:service>
+  <sca:service xmi:id="_YjmEkGt_Ee-WS5bGNqRjYA" name="exchange-rate-add" promote="ComponentResource/exchange-rate-add">
+    <sca:interface.wsdl xmi:id="_YjrkIGt_Ee-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-add)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/RESTfulExchangeRate.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_YjxDsGt_Ee-WS5bGNqRjYA" name="RestService2" path="/exchange-rate-add/" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json">
+      <operation xmi:id="_Yjy44Gt_Ee-WS5bGNqRjYA" operationName="post" nickname="post-exchange-rate-add" httpMethod="POST" notes="postResource" responseStyle="element" requestStyle="element" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <advancedConfig xmi:id="_YjxqwGt_Ee-WS5bGNqRjYA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_Yjy44Wt_Ee-WS5bGNqRjYA" bindingName="RestService2"/>
+  </sca:service>
+  <sca:service xmi:id="_k12fYmuKEe-WS5bGNqRjYA" name="exchange-rate-upadate" promote="ComponentResource/exchange-rate-upadate">
+    <sca:interface.wsdl xmi:id="_k13GcGuKEe-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-upadate)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/RESTfulExchangeRate.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_k16JwGuKEe-WS5bGNqRjYA" name="RestService3" path="/exchange-rate-upadate/" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json">
+      <operation xmi:id="_k17X4GuKEe-WS5bGNqRjYA" operationName="post" nickname="post-exchange-rate-upadate" httpMethod="POST" notes="postResource" responseStyle="element" requestStyle="element" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_k2v3QGuKEe-WS5bGNqRjYA"/>
+      <advancedConfig xmi:id="_k16w0GuKEe-WS5bGNqRjYA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_k17X4WuKEe-WS5bGNqRjYA" bindingName="RestService3"/>
+  </sca:service>
+  <sca:service xmi:id="_0DKtYmumEe-WS5bGNqRjYA" name="exchange-rate-delete" promote="ComponentResource/exchange-rate-delete">
+    <sca:interface.wsdl xmi:id="_0DKtZmumEe-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-delete)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/RESTfulExchangeRate.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_0DO-0GumEe-WS5bGNqRjYA" name="RestService4" path="/exchange-rate-delete/" docBasePath="http://localhost:7777/training-tibco-bw6" docResourcePath="Resource" basePath="/" connector="training-tibco-bw6.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json">
+      <operation xmi:id="_0DQM8GumEe-WS5bGNqRjYA" operationName="post" nickname="post-exchange-rate-delete" httpMethod="POST" notes="postResource" responseStyle="element" requestStyle="element" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_0Ds44GumEe-WS5bGNqRjYA"/>
+      <advancedConfig xmi:id="_0DO-0WumEe-WS5bGNqRjYA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_0DQM8WumEe-WS5bGNqRjYA" bindingName="RestService4"/>
   </sca:service>
   <sca:property xmi:id="_ix_ZkGsvEe-6LMKccht90Q" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_iyGuUGsvEe-6LMKccht90Q" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
@@ -22,10 +68,28 @@
   <sca:property xmi:id="_iyOqIGsvEe-6LMKccht90Q" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_iyP4QGsvEe-6LMKccht90Q" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
   <sca:property xmi:id="_iyRGYGsvEe-6LMKccht90Q" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_kNSTQGt5Ee-WS5bGNqRjYA" name="/ExchangRateParam/IS_USING_API" type="XMLSchema:boolean" scaext:simpleValue="false" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_bT0-QGuEEe-WS5bGNqRjYA" name="/ExchangRateParam/RATE_MARGIN" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_9Zt-IGuHEe-WS5bGNqRjYA" name="/ExchangRateParam/QUEUE_NAME_NOTICE" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_lcCAgGuIEe-WS5bGNqRjYA" name="/ExchangRateParam/EMAIL_NOTICE" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_BGgHAGuKEe-WS5bGNqRjYA" name="/ExchangRateParam/SMTP/SMTP_ADD" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_H1NasGuKEe-WS5bGNqRjYA" name="/ExchangRateParam/SMTP/SMTP_PORT" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
   <sca:component xmi:id="_XskH0GswEe-6LMKccht90Q" name="ComponentResource" compositeext:version="1.0.0.qualifier">
-    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_Xsku4GswEe-6LMKccht90Q" processName="global.vn.training.exchangerate.interface.Resource"/>
-    <sca:service xmi:id="_XsoZQGswEe-6LMKccht90Q" name="resource">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_Xsku4GswEe-6LMKccht90Q" processName="global.vn.training.exchangerate.interface.RESTfulExchangeRate"/>
+    <sca:service xmi:id="_XsoZQGswEe-6LMKccht90Q" name="exchange-rate-get-all">
       <sca:interface.wsdl xmi:id="_XspAUGswEe-6LMKccht90Q" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(resource)" scaext:wsdlLocation="../Processes/global/vn/training/exchangerate/interface/Resource.bwp"/>
+    </sca:service>
+    <sca:service xmi:id="_EmCGkGtWEe-6LMKccht90Q" name="exchange-rate">
+      <sca:interface.wsdl xmi:id="_EmCGkWtWEe-6LMKccht90Q" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate)"/>
+    </sca:service>
+    <sca:service xmi:id="_YjiaMGt_Ee-WS5bGNqRjYA" name="exchange-rate-add">
+      <sca:interface.wsdl xmi:id="_YjkPYGt_Ee-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-add)"/>
+    </sca:service>
+    <sca:service xmi:id="_k12fYGuKEe-WS5bGNqRjYA" name="exchange-rate-upadate">
+      <sca:interface.wsdl xmi:id="_k12fYWuKEe-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-upadate)"/>
+    </sca:service>
+    <sca:service xmi:id="_0DKtYGumEe-WS5bGNqRjYA" name="exchange-rate-delete">
+      <sca:interface.wsdl xmi:id="_0DKtYWumEe-WS5bGNqRjYA" interface="http://xmlns.example.com/20240905094135PLT#wsdl.interface(exchange-rate-delete)"/>
     </sca:service>
   </sca:component>
 </sca:composite>

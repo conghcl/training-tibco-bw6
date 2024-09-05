@@ -56,5 +56,19 @@
 	
 	<element  name="CurrencyOperationRequest" type="tns:CurrencyOperationRequestType"></element>
 	<element name="CurrencyOperationResponse" type="tns:CurrencyOperationResponseType"></element>
+	
+	
+	<!-- notice Currency  -->
+	
+	<complexType name="NoticeRateChangeType">
+		<sequence>
+			<element  name="NoticeID" type="string" minOccurs="0"></element>
+			<element  name="OldRate" type="string" minOccurs="0"></element>
+			<element  name="NewRate" type="string" minOccurs="0"></element>
+			<element  name="ChangeTimestamp" type="string" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	
+	<element  name="NoticeRateChange" type="tns:NoticeRateChangeType"></element>
 
 </schema>

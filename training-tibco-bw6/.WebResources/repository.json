@@ -1,7 +1,17 @@
 {
-    "records": [],
-    "resources": [{
-        "location": "Service Descriptors/global.vn.training.exchangerate.interface.Resource-Resource.json",
-        "type": "generated"
-    }]
+    "records": [{
+        "name": "Cloud",
+        "items": [],
+        "url": "https://integration.cloud.tibco.com:443"
+    }],
+    "resources": [
+        {
+            "location": "Service Descriptors/global.vn.training.exchangerate.interface.Resource-Resource.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/global.vn.training.exchangerate.interface.RESTfulExchangeRate-Resource.json",
+            "type": "generated"
+        }
+    ]
 }
