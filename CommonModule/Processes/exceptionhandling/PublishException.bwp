@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpws:process exitOnStandardFault="no"
-    name="global.vn.common.log.exceptionhandling.ErrorProcessor"
-    suppressJoinFailure="yes"
-    targetNamespace="http://www.bidv.com/soa/util/exceptionhandling/errorprocessor"
+    name="exceptionhandling.PublishException" suppressJoinFailure="yes"
+    targetNamespace="http://www.bidv.com/soa/util/exceptionhandling/publishexception"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:info="http://www.tibco.com/bw/process/info"
     xmlns:ns="http://www.tibco.com/pe/EngineTypes"
-    xmlns:ns0="http://www.bidv.com/common/exceptionhandling/exception/1.0"
-    xmlns:ns1="http://www.bidv.com/common/envelope/commonheader/1.0"
-    xmlns:ns2="http://www.bidv.com/soa/util/exceptionhandling/errorprocessorPLT"
+    xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/jms+dbc62234-3500-439e-91cd-57c1fb6be3b3+input"
+    xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/jms"
+    xmlns:ns2="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jms.send"
+    xmlns:ns3="http://www.bidv.com/common/envelope/soaenvelope/1.0"
+    xmlns:ns4="http://www.bidv.com/common/exceptionhandling/exception/1.0"
+    xmlns:ns5="http://www.tibco.com/pe/WriteToLogActivitySchema"
+    xmlns:ns6="activity.jsonRender.output+ec1d29c7-cadb-46c6-8c86-71a312402653+ActivityOutputType"
+    xmlns:ns7="http://tns.tibco.com/bw/palette/internal/activityerror+bw.restjson.JsonRender"
+    xmlns:ns8="http://www.example.org/Log"
     xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
     xmlns:sca-bpel="http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801"
     xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
@@ -174,34 +179,122 @@
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
-        <wsdl:definitions
-            targetNamespace="http://www.bidv.com/soa/util/exceptionhandling/errorprocessorPLT"
-            xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-            xmlns:ptyp="http://www.example.org/wsdl/ErrorPrcess"
-            xmlns:tns="http://www.bidv.com/soa/util/exceptionhandling/errorprocessorPLT"
-            xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
-            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <xs:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
+            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType name="LogParametersType">
+                <xs:sequence>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="msgCode" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="loggerName" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="logLevel" type="xs:string"/>
+                    <xs:element form="unqualified" name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
+        </xs:schema>
+        <schema
+            targetNamespace="activity.jsonRender.output+ec1d29c7-cadb-46c6-8c86-71a312402653+ActivityOutputType"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="activity.jsonRender.output+ec1d29c7-cadb-46c6-8c86-71a312402653+ActivityOutputType">
+            <complexType name="ActivityOutputClassType">
+                <sequence>
+                    <element maxOccurs="1" minOccurs="1"
+                        name="jsonString" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="ActivityOutputClass" type="tns:ActivityOutputClassType"/>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions">
+            <element name="JSONActivityException" type="tns:JSONActivityException"/>
+            <complexType name="JSONActivityException">
+                <sequence>
+                    <element name="msg" type="string"/>
+                    <element minOccurs="0" name="msgCode" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="UnsupportedEncodingException" type="tns:UnsupportedEncodingExceptionType"/>
+            <complexType name="UnsupportedEncodingExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException">
+                        <sequence>
+                            <element name="encoding" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="JSONParserExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException"/>
+                </complexContent>
+            </complexType>
+            <element name="JSONParserException" type="tns:JSONParserExceptionType"/>
+            <complexType name="JSONTransformExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException"/>
+                </complexContent>
+            </complexType>
+            <element name="JSONTransformException" type="tns:JSONTransformExceptionType"/>
+            <complexType name="JSONRenderExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException"/>
+                </complexContent>
+            </complexType>
+            <element name="JSONRenderException" type="tns:JSONRenderExceptionType"/>
+            <complexType name="JSONRestExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException"/>
+                </complexContent>
+            </complexType>
+            <element name="JSONRestException" type="tns:JSONRestExceptionType"/>
+            <complexType name="ValidationExceptionType">
+                <complexContent>
+                    <extension base="tns:JSONActivityException"/>
+                </complexContent>
+            </complexType>
+            <element name="ValidationException" type="tns:ValidationExceptionType"/>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.restjson.JsonRender"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.restjson.JsonRender">
+            <import namespace="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions"/>
+            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
+            <complexType name="ActivityErrorDataType">
+                <choice>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JSONRenderException"/>
+                </choice>
+            </complexType>
+        </schema>
     </tibex:Types>
     <tibex:ProcessInfo callable="true" createdBy="BIDVAdmin"
-        createdOn="Mon Jun 13 18:03:14 ICT 2022" description=""
+        createdOn="Thu Jun 09 08:22:07 ICT 2022" description=""
         extraErrorVars="true" modifiers="public"
         productVersion="6.8.0 V55 2021-11-10" scalable="true"
         singleton="true" stateless="true" type="IT"/>
     <tibex:ProcessInterface context=""
-        input="{http://www.bidv.com/common/exceptionhandling/exception/1.0}ErrorProcessorReq" output="{http://www.bidv.com/common/exceptionhandling/exception/1.0}ErrorProcessorRes"/>
+        input="{http://www.bidv.com/common/exceptionhandling/exception/1.0}Exception" output=""/>
     <tibex:ProcessTemplateConfigurations/>
     <notation:Diagram measurementUnit="Pixel" type="BWProcess"
         xmlns:bwnotation="http://tns.tibco.com/bw/runtime/BWNotation"
         xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <children type="2001">
-            <children type="5001"/>
+            <children type="5001">
+                <element href="//0/@process"/>
+            </children>
             <children type="3002">
                 <styles xsi:type="notation:SortingStyle"/>
                 <styles xsi:type="notation:FilteringStyle"/>
+                <element href="//0/@process"/>
             </children>
             <children type="3003">
                 <styles xsi:type="notation:SortingStyle"/>
                 <styles xsi:type="notation:FilteringStyle"/>
+                <element href="//0/@process"/>
             </children>
             <children type="3004">
                 <children type="4018">
@@ -215,24 +308,28 @@
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="Segoe UI"
@@ -242,32 +339,36 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
-                                    <layoutConstraint x="-28"
-                                    xsi:type="notation:Bounds" y="89"/>
+                                    <layoutConstraint x="2"
+                                    xsi:type="notation:Bounds" y="2"/>
                                     </children>
                                     <children type="4002">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="Segoe UI"
@@ -277,10 +378,10 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.1"/>
-                                    <layoutConstraint x="661"
-                                    xsi:type="notation:Bounds" y="89"/>
+                                    <layoutConstraint x="377"
+                                    xsi:type="notation:Bounds" y="2"/>
                                     </children>
-                                    <children type="4002">
+                                    <children type="4002 bw.generalactivities.log">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
@@ -312,10 +413,12 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint x="190"
-                                    xsi:type="notation:Bounds" y="89"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="172"
+                                    xsi:type="notation:Bounds" y="2"/>
                                     </children>
-                                    <children type="4002 bw.generalactivities.callprocess">
+                                    <children type="4002 bw.restjson.JsonRender">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
@@ -349,8 +452,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="477"
-                                    xsi:type="notation:Bounds" y="89"/>
+                                    x="84"
+                                    xsi:type="notation:Bounds" y="2"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -365,16 +468,18 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
                                     <layoutConstraint height="384"
-                                    width="794" xsi:type="notation:Bounds"/>
+                                    width="515" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
+                                <element href="//0/@process/@activity"/>
                             </children>
                             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
                             <styles xsi:type="bwnotation:BackgroundStyle"/>
                             <styles xsi:type="bwnotation:ResizingStyle"/>
                             <element href="//0/@process/@activity"/>
-                            <layoutConstraint height="384" width="797" xsi:type="notation:Bounds"/>
+                            <layoutConstraint height="365" width="444"
+                                x="30" xsi:type="notation:Bounds" y="20"/>
                         </children>
                         <styles xsi:type="notation:SortingStyle"/>
                         <styles xsi:type="notation:FilteringStyle"/>
@@ -384,8 +489,7 @@
                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                     <styles xsi:type="bwnotation:ResizingStyle"/>
                     <element href="//0/@process/@activity"/>
-                    <layoutConstraint height="408" width="797" x="1"
-                        xsi:type="notation:Bounds" y="1"/>
+                    <layoutConstraint height="409" width="519" xsi:type="notation:Bounds"/>
                 </children>
                 <styles xsi:type="notation:SortingStyle"/>
                 <styles xsi:type="notation:FilteringStyle"/>
@@ -393,13 +497,13 @@
             </children>
             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="460" width="1139" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="460" width="860" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -410,7 +514,7 @@
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -421,7 +525,7 @@
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -433,82 +537,45 @@
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
-            namespace="http://www.bidv.com/common/envelope/commonheader/1.0" prefix="cmd-header"/>
+            namespace="http://www.tibco.com/namespaces/tnt/plugins/jms+dbc62234-3500-439e-91cd-57c1fb6be3b3+input" prefix="tns"/>
         <tibex:namespaceItem
-            namespace="http://www.bidv.com/common/exceptionhandling/exception/1.0" prefix="tns"/>
+            namespace="http://www.example.org/LoggingSchema" prefix="tns1"/>
         <tibex:namespaceItem
             namespace="http://www.bidv.com/common/envelope/soaenvelope/1.0" prefix="cmd-soa"/>
         <tibex:namespaceItem
-            namespace="http://www.tibco.com/bw/xslt/custom-functions" prefix="tib"/>
-        <tibex:namespaceItem
-            namespace="http://www.tibco.com/bw/xpath/bw-custom-functions" prefix="bw"/>
+            namespace="http://www.bidv.com/common/envelope/commonheader/1.0" prefix="cmd-header"/>
         <tibex:namespaceItem
             namespace="http://www.bidv.com/common/exceptionhandling/errorreport/1.0" prefix="ns"/>
         <tibex:namespaceItem
+            namespace="http://www.bidv.com/common/exceptionhandling/exception/1.0" prefix="ns1"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/bw/xslt/custom-functions" prefix="tib"/>
+        <tibex:namespaceItem
             namespace="http://www.bidv.com/common/envelope/baseenvelope/1.0" prefix="cmd-base"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/pe/WriteToLogActivitySchema" prefix="tns2"/>
+        <tibex:namespaceItem namespace="http://www.example.org/Log" prefix="tns3"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/bw/xpath/bw-custom-functions" prefix="bw"/>
+        <tibex:namespaceItem
+            namespace="http://www.w3.org/2001/XMLSchema" prefix="xsd"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.bidv.com/common/exceptionhandling/exception/1.0"/>
-    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.bidv.com/common/envelope/commonheader/1.0"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/LoggingSchema"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.bidv.com/common/exceptionhandling/exception/1.0"/>
-    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.bidv.com/common/envelope/commonheader/1.0"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/Log"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:Exception" name="Exception-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:Exception" name="Exception" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:ErrorProcessorReq" name="Start"
+        <bpws:variable element="ns4:Exception" name="Start"
             sca-bpel:internal="true" tibex:parameter="in"/>
-        <bpws:variable element="ns0:ErrorProcessorRes" name="End-input"
-            sca-bpel:internal="true" tibex:parameter="out"/>
-        <bpws:variable name="Logging.ErrorRole"
-            sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
-            sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorRolo'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="ErrorSeverityHIGH"
-            sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
-            sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorHigh'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="ErrorType" sca-bpel:hotUpdate="false"
-            sca-bpel:privateProperty="true" sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorType'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable element="ns0:ErrorTranslator"
-            name="ErrorTranslator-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns1:ResponseStatus"
-            name="ErrorTranslator" sca-bpel:internal="true"/>
-        <bpws:variable name="Tag.MessageID" sca-bpel:hotUpdate="false"
-            sca-bpel:privateProperty="true" sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>random()</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="Tag.ErrorCode" sca-bpel:hotUpdate="false"
-            sca-bpel:privateProperty="true" sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorCode'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="Tag.ErrorDesc" sca-bpel:hotUpdate="false"
-            sca-bpel:privateProperty="true" sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorDesc'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="GlobalErr.ErrorInSystem"
-            sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
-            sca-bpel:property="yes" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>'ErrorInSystem'</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
+        <bpws:variable element="ns5:ActivityInput" name="Log-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns8:JsonData" name="RenderJSON-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns6:ActivityOutputClass"
+            name="RenderJSON" sca-bpel:internal="true"/>
+        <bpws:variable element="ns7:ActivityErrorData"
+            name="_error_RenderJSON" sca-bpel:internal="true"/>
+        <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
@@ -521,17 +588,17 @@
     <bpws:scope name="scope">
         <bpws:flow name="flow">
             <bpws:links>
-                <bpws:link name="StartToMapper" tibex:linkType="SUCCESS"/>
-                <bpws:link name="ExceptionToErrorTranslator" tibex:linkType="SUCCESS"/>
-                <bpws:link name="CallProcessToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="StartToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="LogToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="RenderJSONToLog" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
                     eventTimeout="0" name="Start"
-                    tibex:xpdlId="ab59edd6-da8a-4c03-8be2-f2fa8f51b403"
+                    tibex:xpdlId="6d592f54-5b52-449b-8120-a73b93f91ca5"
                     variable="Start" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:sources>
-                        <bpws:source linkName="StartToMapper"/>
+                        <bpws:source linkName="StartToEnd"/>
                     </bpws:sources>
                     <tibex:eventSource>
                         <tibex:StartEvent xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -539,16 +606,11 @@
                 </tibex:receiveEvent>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="End-input"
-                    name="End"
-                    tibex:xpdlId="b6448067-6ad0-4a65-90ab-9245e9afe363" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:activityExtension name="End"
+                    tibex:xpdlId="5b91956f-7a55-489c-911a-40970533999f" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="CallProcessToEnd"/>
+                        <bpws:target linkName="LogToEnd"/>
                     </bpws:targets>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.bidv.com/common/exceptionhandling/exception/1.0&quot; xmlns:cmd-header=&quot;http://www.bidv.com/common/envelope/commonheader/1.0&quot; xmlns:cmd-soa=&quot;http://www.bidv.com/common/envelope/soaenvelope/1.0&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Exception&quot;/>&lt;xsl:param name=&quot;ErrorTranslator&quot;/>&lt;xsl:param name=&quot;Tag.MessageID&quot;/>&lt;xsl:param name=&quot;Tag.ErrorCode&quot;/>&lt;xsl:param name=&quot;Tag.ErrorDesc&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:ErrorProcessorRes>&lt;cmd-header:Header>&lt;cmd-header:Common>&lt;cmd-header:BusinessDomain>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:BusinessDomain&quot;/>&lt;/cmd-header:BusinessDomain>&lt;cmd-header:ServiceVersion>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:ServiceVersion&quot;/>&lt;/cmd-header:ServiceVersion>&lt;cmd-header:MessageId>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:MessageId&quot;/>&lt;/cmd-header:MessageId>&lt;xsl:if test=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:TransactionId&quot;>&lt;cmd-header:TransactionId>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:TransactionId&quot;/>&lt;/cmd-header:TransactionId>&lt;/xsl:if>&lt;xsl:if test=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:RequestRefDate&quot;>&lt;cmd-header:RequestRefDate>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:RequestRefDate&quot;/>&lt;/cmd-header:RequestRefDate>&lt;/xsl:if>&lt;cmd-header:MessageTimestamp>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:MessageTimestamp&quot;/>&lt;/cmd-header:MessageTimestamp>&lt;cmd-header:AdditionalInformation>&lt;cmd-header:NameValuePairs>&lt;cmd-header:Name>&lt;xsl:value-of select=&quot;$Tag.MessageID&quot;/>&lt;/cmd-header:Name>&lt;cmd-header:Value>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:MessageId&quot;/>&lt;/cmd-header:Value>&lt;/cmd-header:NameValuePairs>&lt;cmd-header:NameValuePairs>&lt;cmd-header:Name>&lt;xsl:value-of select=&quot;$Tag.ErrorCode&quot;/>&lt;/cmd-header:Name>&lt;cmd-header:Value>&lt;xsl:value-of select=&quot;$ErrorTranslator/cmd-header:GlobalErrorCode&quot;/>&lt;/cmd-header:Value>&lt;/cmd-header:NameValuePairs>&lt;cmd-header:NameValuePairs>&lt;cmd-header:Name>&lt;xsl:value-of select=&quot;$Tag.ErrorDesc&quot;/>&lt;/cmd-header:Name>&lt;cmd-header:Value>&lt;xsl:value-of select=&quot;$ErrorTranslator/cmd-header:GlobalErrorDescription&quot;/>&lt;/cmd-header:Value>&lt;/cmd-header:NameValuePairs>&lt;xsl:if test=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:AdditionalInformation/cmd-header:Other&quot;>&lt;cmd-header:Other>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:SOACommonDetail/cmd-header:Common/cmd-header:AdditionalInformation/cmd-header:Other&quot;/>&lt;/cmd-header:Other>&lt;/xsl:if>&lt;/cmd-header:AdditionalInformation>&lt;/cmd-header:Common>&lt;xsl:copy-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:ClientDetail/cmd-header:Client&quot;/>&lt;/cmd-header:Header>&lt;xsl:copy-of select=&quot;$ErrorTranslator&quot;/>&lt;/tns:ErrorProcessorRes>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
                             activityTypeID="bw.internal.end"
@@ -566,32 +628,31 @@
                 </tibex:activityExtension>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="Exception-input"
-                    name="Exception" outputVariable="Exception"
-                    tibex:xpdlId="9591b57a-245a-4f9c-b6d5-a1cf3ae6e500" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:activityExtension inputVariable="Log-input"
+                    name="Log"
+                    tibex:xpdlId="5f566b0b-6584-4605-99bc-d6291a4abd57" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="StartToMapper"/>
+                        <bpws:target linkName="RenderJSONToLog"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="ExceptionToErrorTranslator"/>
+                        <bpws:source linkName="LogToEnd"/>
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.bidv.com/common/exceptionhandling/exception/1.0&quot; xmlns:ns=&quot;http://www.bidv.com/common/exceptionhandling/errorreport/1.0&quot; xmlns:cmd-soa=&quot;http://www.bidv.com/common/envelope/soaenvelope/1.0&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Logging.ErrorRole&quot;/>&lt;xsl:param name=&quot;ErrorType&quot;/>&lt;xsl:param name=&quot;ErrorSeverityHIGH&quot;/>&lt;xsl:template name=&quot;Exception-input&quot; match=&quot;/&quot;>&lt;tns:Exception>&lt;xsl:copy-of select=&quot;$Start/cmd-soa:SOAEnvelope&quot;/>&lt;tns:ExceptionBody>&lt;xsl:if test=&quot;if (string-length($Start/tns:ExceptionBody/tns:Hostname)>0) then $Start/tns:ExceptionBody/tns:Hostname else bw:getHostName()&quot;>&lt;tns:Hostname>&lt;xsl:value-of select=&quot;if (string-length($Start/tns:ExceptionBody/tns:Hostname)>0) then $Start/tns:ExceptionBody/tns:Hostname else bw:getHostName()&quot;/>&lt;/tns:Hostname>&lt;/xsl:if>&lt;tns:Category>&lt;xsl:value-of select=&quot;if (string-length($Start/tns:ExceptionBody/tns:Category)>0) then $Start/tns:ExceptionBody/tns:Category else $Logging.ErrorRole&quot;/>&lt;/tns:Category>&lt;tns:Type>&lt;xsl:value-of select=&quot;if (string-length($Start/tns:ExceptionBody/tns:Type)>0) then $Start/tns:ExceptionBody/tns:Type else $ErrorType&quot;/>&lt;/tns:Type>&lt;tns:Level>&lt;xsl:value-of select=&quot;if (string-length($Start/tns:ExceptionBody/tns:Level)>0) then $Start/tns:ExceptionBody/tns:Level else $ErrorSeverityHIGH&quot;/>&lt;/tns:Level>&lt;xsl:copy-of select=&quot;$Start/tns:ExceptionBody/ns:ErrorReport&quot;/>&lt;/tns:ExceptionBody>&lt;/tns:Exception>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:cmd-soa=&quot;http://www.bidv.com/common/envelope/soaenvelope/1.0&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;RenderJSON&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns2:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;$RenderJSON/jsonString&quot;/>&lt;/message>&lt;/tns2:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
-                            activityTypeID="bw.generalactivities.mapper"
+                            activityTypeID="bw.generalactivities.log"
                             version="6.0.0.001"
                             xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
                             xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:exception_1.0="http://www.bidv.com/common/exceptionhandling/exception/1.0"
                             xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                             <activityConfig>
                                 <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
-                                    <value
-                                    inputQName="exception_1.0:Exception" xsi:type="generalactivities:Mapper"/>
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
+                                    <value role="Error"
+                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
                                 </properties>
                             </activityConfig>
                         </bwext:BWActivity>
@@ -599,24 +660,38 @@
                 </tibex:activityExtension>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:extActivity inputVariable="ErrorTranslator-input"
-                    name="ErrorTranslator"
-                    outputVariable="ErrorTranslator"
-                    tibex:xpdlId="7e7c729a-1877-42c1-a1ab-fb00036e666f"
-                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:activityExtension
+                    inputVariable="RenderJSON-input" name="RenderJSON"
+                    outputVariable="RenderJSON"
+                    tibex:xpdlId="ec1d29c7-cadb-46c6-8c86-71a312402653" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="ExceptionToErrorTranslator"/>
+                        <bpws:target linkName="StartToEnd"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="CallProcessToEnd"/>
+                        <bpws:source linkName="RenderJSONToLog"/>
                     </bpws:sources>
                     <tibex:inputBindings>
-                        <tibex:inputBinding coercion=""
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:ns=&quot;http://www.bidv.com/common/exceptionhandling/errorreport/1.0&quot; xmlns:tns=&quot;http://www.bidv.com/common/exceptionhandling/exception/1.0&quot; xmlns:cmd-header=&quot;http://www.bidv.com/common/envelope/commonheader/1.0&quot; xmlns:cmd-soa=&quot;http://www.bidv.com/common/envelope/soaenvelope/1.0&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Exception&quot;/>&lt;xsl:template name=&quot;ErrorTranslator-input&quot; match=&quot;/&quot;>&lt;tns:ErrorTranslator>&lt;xsl:copy-of select=&quot;$Exception/tns:ExceptionBody/ns:ErrorReport&quot;/>&lt;tns:SourceAppID>&lt;xsl:value-of select=&quot;$Exception/cmd-soa:SOAEnvelope/cmd-soa:SOAServiceHeader/cmd-soa:ClientDetail/cmd-header:Client/cmd-header:SourceAppID&quot;/>&lt;/tns:SourceAppID>&lt;tns:ErrorAppID>&lt;xsl:value-of select=&quot;$Start/tns:ErrorAppID&quot;/>&lt;/tns:ErrorAppID>&lt;/tns:ErrorTranslator>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/Log&quot; xmlns:cmd-soa=&quot;http://www.bidv.com/common/envelope/soaenvelope/1.0&quot; xmlns:cmd-header=&quot;http://www.bidv.com/common/envelope/commonheader/1.0&quot; xmlns:ns=&quot;http://www.bidv.com/common/exceptionhandling/errorreport/1.0&quot; xmlns:ns1=&quot;http://www.bidv.com/common/exceptionhandling/exception/1.0&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tib=&quot;http://www.tibco.com/bw/xslt/custom-functions&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;RenderJSON-input&quot; match=&quot;/&quot;>&lt;tns3:JsonData>&lt;xsl:if test=&quot;$Start/ns1:ExceptionBody/ns:ErrorReport/ns:MsgCode&quot;>&lt;tns3:trace_id>&lt;xsl:value-of select=&quot;$Start/ns1:ExceptionBody/ns:ErrorReport/ns:MsgCode&quot;/>&lt;/tns3:trace_id>&lt;/xsl:if>&lt;tns3:log_level>&lt;xsl:value-of select=&quot;'ERROR'&quot;/>&lt;/tns3:log_level>&lt;tns3:logger_name>&lt;xsl:value-of select=&quot;'Service.Exception'&quot;/>&lt;/tns3:logger_name>&lt;tns3:log_timestamp>&lt;xsl:value-of select=&quot;current-dateTime()&quot;/>&lt;/tns3:log_timestamp>&lt;tns3:app_code>&lt;xsl:value-of select=&quot;$Start/ns1:ExceptionBody/ns1:Category&quot;/>&lt;/tns3:app_code>&lt;xsl:if test=&quot;$Start/ns1:ExceptionBody/ns:ErrorReport/ns:MsgCode&quot;>&lt;tns3:message_id>&lt;xsl:value-of select=&quot;$Start/ns1:ExceptionBody/ns:ErrorReport/ns:MsgCode&quot;/>&lt;/tns3:message_id>&lt;/xsl:if>&lt;tns3:log_content>&lt;xsl:value-of select=&quot;&amp;quot;&amp;quot;&quot;/>&lt;/tns3:log_content>&lt;tns3:exception>&lt;xsl:value-of select=&quot;tib:render-xml($Start/ns1:ExceptionBody/ns:ErrorReport, true())&quot;/>&lt;/tns3:exception>&lt;/tns3:JsonData>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
-                    <tibex:CallProcess
-                        subProcessName="global.vn.common.log.exceptionhandling.ErrorTranslator" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
-                </tibex:extActivity>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.restjson.JsonRender"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:restjson="http://ns.tibco.com/bw/palette/restjson" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/restjson#//JsonRender"/>
+                                    <value jsonOutputStyle="None"
+                                    schemaType="Xsd" xsi:type="restjson:JsonRender">
+                                    <inputEditorElement href="platform:/resource/CommonModule/Schemas/Common/Logging/Log.xsd#//JsonData;XSDElementDeclaration=4"/>
+                                    </value>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:config>
+                </tibex:activityExtension>
             </bpws:extensionActivity>
         </bpws:flow>
     </bpws:scope>

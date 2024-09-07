@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/LoggingSchema" xmlns:tns="http://www.example.org/LoggingSchema" elementFormDefault="qualified">
+
+    <complexType name="LoggingReqType">
+    	<sequence>
+    		<element name="ServiceHeader" type="tns:ServiceHeaderType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="ServiceInfo" type="tns:ServiceInfoType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="BussinessDomain" type="string" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="HostName" type="string" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="TimeDuration" type="int" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="Status" type="string" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="AdditionalMessage" type="string"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="TransactionBefore" type="string" minOccurs="0" maxOccurs="1"></element>
+    		<element name="TransactionAfter" type="string" minOccurs="0" maxOccurs="1"></element>
+    		<element name="ResponseStatus" type="tns:ResponseStatusType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="LogTimeStamp" type="dateTime" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="LoggingResType">
+    	<sequence>
+    		<element name="out" type="string"></element>
+    	</sequence>
+    </complexType>
+    
+
+    <complexType name="ServiceHeaderType">
+    	<sequence>
+    		<element name="SOAMsgID" type="string"></element>
+    		<element name="MessageID" type="string"></element>
+    		<element name="SourceID" type="string"></element>
+    		<element name="RequestRefDate" type="dateTime"></element>
+    		<element name="MessageType" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ResponseStatusType">
+    	<sequence>
+    		<element name="ResponseStatus" type="string"></element>
+    		<element name="ErrorCode" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="ErrorDesc" type="string" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="ServiceInfoType">
+    	<sequence>
+    		<element name="ServiceName" type="string"></element>
+            <element name="OperationName" type="string"></element>
+            <element name="ServiceVersion" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ExceptionRequestType">
+    	<sequence>
+    		<element name="ServiceHeader"
+    			type="tns:ServiceHeaderType" maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="MessagePayLoad" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="BusinessDomain" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="Category" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="StackTrace" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="ErrorCode" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="ErrorDesc" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="ServiceInfo" type="tns:ServiceInfoType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="FullClass" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="Class" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="ProcessStack" type="string" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="FromIDType">
+    	<sequence>
+    		<element name="ID" type="string"></element>
+    		<element name="Type" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ErrorDetailType">
+    	<sequence>
+    		<element name="ApplicationID" type="string"></element>
+    		<element name="ErrorCode" type="string"></element>
+    		<element name="ErrorDesc" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ExceptionMsgType">
+    	<sequence>
+    		<element name="ApplicationID" type="string"></element>
+    		<element name="ErrorCode" type="string"></element>
+    		<element name="ErrorDesc" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ExceptionResponseType">
+    	<sequence>
+    		<element name="out" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="LoggingRequest" type="tns:LoggingReqType"></element>
+    
+    <element name="LoggingResponse" type="tns:LoggingResType"></element>
+
+    <element name="ExceptionRequest" type="tns:ExceptionRequestType"></element>
+
+    <element name="ExceptionResponse"
+    	type="tns:ExceptionResponseType">
+    </element>
+
+    <element name="ExceptionMessage" type="tns:ExceptionMsgType"></element>
+
+</schema>

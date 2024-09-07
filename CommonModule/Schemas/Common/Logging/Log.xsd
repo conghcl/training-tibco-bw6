@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Log" xmlns:tns="http://www.example.org/Log" elementFormDefault="qualified">
+
+    <element name="LogRequest">
+    	<complexType>
+    		<sequence>
+                <element ref="tns:LogData"></element>
+                <element ref="tns:LogOption" minOccurs="0"
+    				maxOccurs="1">
+    			</element>
+    			<element ref="tns:LogCentral" minOccurs="0"
+    				maxOccurs="1">
+    			</element>
+    			<element ref="tns:LogJMS" minOccurs="0" maxOccurs="1"></element>
+    			<element ref="tns:LogFile" minOccurs="0"
+    				maxOccurs="1">
+    			</element>
+    		</sequence>
+    	</complexType>
+    </element>
+    
+
+    <element name="LogJMS" type="tns:LogJMSType"></element>
+    
+    <complexType name="LogJMSType">
+    	<sequence>
+    		<element name="JMSUsername" type="string" minOccurs="0"></element>
+    		<element name="JMSPassword" type="string" minOccurs="0"></element>
+    		<element name="JMSQueueName" type="string" minOccurs="0"></element>
+    		<element name="JMSUrl" type="string" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="LogCentral" type="tns:LogCentralType"></element>
+    
+    <complexType name="LogCentralType">
+    	<sequence>
+    		<element name="BootstrapServer" type="string"></element>
+    		<element name="TopicName" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="LogOption">
+    	<complexType>
+    		<sequence>
+    			<element name="IsLogCentral" type="boolean"></element>
+    			<element name="IsLogFile" type="boolean"></element>
+    			<element name="IsLogJava" type="boolean"></element>
+    			<element name="IsLogJMS" type="boolean"></element>
+    			<element name="IsLogConsole" type="boolean"></element>
+    			<element name="IsLogDB" type="boolean"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+    <element name="JsonData">
+    	<complexType>
+    		<sequence>
+    			<element name="trace_id" type="string" minOccurs="0"></element>
+    			<element name="log_level" type="string" minOccurs="0"></element>
+    			<element name="logger_name" type="string" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="log_timestamp" type="dateTime"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="app_code" type="string" minOccurs="0"></element>
+    			<element name="log_type" type="string" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="message_id" type="string" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="service_name" type="string"
+    				minOccurs="0">
+    			</element>
+    			<element name="operation_name" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="service_version" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="log_content" type="string"
+    				minOccurs="0">
+    			</element>
+    			<element name="status" type="string" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="global_error_code" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="global_error_desc" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="sub_error_code" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="sub_error_desc" type="string"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="exception" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="process_duration" type="long"
+    				minOccurs="0">
+    			</element>
+    			<element name="source" minOccurs="0">
+    				<complexType>
+    					<sequence>
+    						<element name="appcode" type="string"></element>
+    						<element name="service_name"
+    							type="string">
+    						</element>
+    						<element name="request" type="string"></element>
+    					</sequence>
+    				</complexType>
+    			</element>
+    			<element name="target" minOccurs="0">
+    				<complexType>
+    					<sequence>
+    						<element name="appcode" type="string"></element>
+    						<element name="service_name"
+    							type="string">
+    						</element>
+    						<element name="response" type="string"></element>
+    					</sequence>
+    				</complexType>
+    			</element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+    <element name="LogFile" type="tns:LogFileType"></element>
+    
+    <complexType name="LogFileType">
+    	<sequence>
+    		<element name="Filename" type="string" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="LogData" type="tns:LogDataType"></element>
+    
+    <complexType name="LogDataType">
+    	<sequence>
+    		<element name="trace_id" type="string"></element>
+    		<element name="log_level" type="string"></element>
+    		<element name="date" type="dateTime"></element>
+    		<element name="appcode" type="string"></element>
+    		<element name="service_name" type="string"></element>
+    		<element name="content" type="string" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="JMSRequest">
+    	<complexType>
+    		<sequence>
+    			<element name="JMSRequestData" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+    <complexType name="JMSRequestType">
+    	<sequence>
+    		<element name="JMSRequest" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="SubProcessLogRequest"
+    	type="tns:SubProcessLogRequestType">
+    </element>
+    
+    <complexType name="SubProcessLogRequestType">
+    	<sequence>
+    		<element ref="tns:JsonData"></element>
+    		<element ref="tns:LogOption"></element>
+    		<element ref="tns:LogCentral" minOccurs="0"></element>
+    		<element ref="tns:LogJMS" minOccurs="0"></element>
+    		<element ref="tns:LogFile" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+</schema>

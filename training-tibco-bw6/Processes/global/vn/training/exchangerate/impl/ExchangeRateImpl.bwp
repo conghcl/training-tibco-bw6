@@ -1430,8 +1430,8 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="507"
-                                    xsi:type="notation:Bounds" y="60"/>
+                                    x="508"
+                                    xsi:type="notation:Bounds" y="96"/>
                                     </children>
 
                                     <styles xsi:type="notation:DrawerStyle"/>
@@ -1455,7 +1455,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity"/>
 
                                     <layoutConstraint
-                                    height="145"
+                                    height="181"
                                     width="1042" xsi:type="notation:Bounds"/>
                                     </children>
 
@@ -1475,7 +1475,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
 
                                     <layoutConstraint
-                                    height="145"
+                                    height="181"
                                     width="1045"
                                     x="15" xsi:type="notation:Bounds"/>
                                     </children>
@@ -1490,7 +1490,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
 
                                     <layoutConstraint
-                                    height="169"
+                                    height="205"
                                     width="1085" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1548,7 +1548,7 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0"/>
                                     <layoutConstraint
-                                    height="188"
+                                    height="224"
                                     width="1147"
                                     x="2" xsi:type="notation:Bounds"/>
                                     </children>
@@ -3604,7 +3604,7 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint
-                                    height="1254"
+                                    height="1289"
                                     width="561" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
@@ -3977,7 +3977,7 @@
             <styles fontColor="255" fontName="Segoe UI" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.3"/>
             <bendpoints
-                points="[0, 25, -364, -5]$[0, 54, -364, 24]$[182, 54, -182, 24]$[182, 30, -182, 0]$[340, 30, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
+                points="[0, 25, -363, -23]$[0, 63, -363, 15]$[339, 63, -24, 15]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
             source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.4/@children.0/@children.0"

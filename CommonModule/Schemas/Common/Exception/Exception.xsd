@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.bidv.com/common/exceptionhandling/exception/1.0" elementFormDefault="qualified" xmlns:cmd-header="http://www.bidv.com/common/envelope/commonheader/1.0" xmlns:cmd-soa="http://www.bidv.com/common/envelope/soaenvelope/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidv.com/common/exceptionhandling/exception/1.0" xmlns:Q1="http://www.bidv.com/common/exceptionhandling/errorreport/1.0">
+<xsd:schema targetNamespace="http://www.bidv.com/common/exceptionhandling/exception/1.0" 
+	elementFormDefault="qualified" 
+	xmlns:cmd-header="http://www.bidv.com/common/envelope/commonheader/1.0" 
+	xmlns:cmd-soa="http://www.bidv.com/common/envelope/soaenvelope/1.0" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.bidv.com/common/exceptionhandling/exception/1.0" 
+	xmlns:Q1="http://www.bidv.com/common/exceptionhandling/errorreport/1.0" 
+	xmlns:Q2="http://www.bidv.com/common/envelope/serviceenvelope/1.0">
 
+    <xsd:import namespace="http://www.bidv.com/common/envelope/serviceenvelope/1.0"></xsd:import>
     <xsd:import namespace="http://www.bidv.com/common/exceptionhandling/errorreport/1.0" schemaLocation="ErrorReport.xsd"></xsd:import>
     <xsd:import schemaLocation="../Envelope/CommonHeader.xsd" namespace="http://www.bidv.com/common/envelope/commonheader/1.0">
 	</xsd:import>
-	<xsd:import schemaLocation="../Envelope/SOAEnvelope.xsd" namespace="http://www.bidv.com/common/envelope/soaenvelope/1.0"></xsd:import>
+	<!-- <xsd:import schemaLocation="../Envelope/SOAEnvelope.xsd" namespace="http://www.bidv.com/common/envelope/soaenvelope/1.0"></xsd:import> -->
+	<xsd:import schemaLocation="../Envelope/ServiceEnvelope.xsd" namespace="http://www.bidv.com/common/envelope/serviceenvelope/1.0"></xsd:import>
 	<xsd:element name="InternalRoutingReq">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="ProcessName" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
 				<xsd:element name="GenerateID" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
 				<xsd:element ref="cmd-header:Header"></xsd:element>
-				<xsd:element ref="cmd-soa:ServiceBody"></xsd:element>
+				<xsd:element ref="Q2:ServiceBody"></xsd:element>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="InternalRoutingRes">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="cmd-soa:SOAServiceHeader"></xsd:element>
-				<xsd:element ref="cmd-soa:ServiceBody"></xsd:element>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
 
 	<xsd:element name="InternalRoutingIndexes">
 		<xsd:complexType>
@@ -43,7 +44,7 @@
 	<xsd:element name="Exception">
     	<xsd:complexType>
     		<xsd:sequence>
-    			<xsd:element ref="cmd-soa:SOAEnvelope"></xsd:element>
+    			
     			<xsd:element ref="ExceptionBody"></xsd:element>
     		</xsd:sequence>
     	</xsd:complexType>
@@ -69,7 +70,7 @@
     	<xsd:complexType>
     		<xsd:sequence>
     			<xsd:element ref="cmd-header:Header"></xsd:element>
-    			<xsd:element ref="cmd-soa:ServiceBody"></xsd:element>
+    			<xsd:element ref="Q2:ServiceBody"></xsd:element>
     		</xsd:sequence>
     	</xsd:complexType>
     </xsd:element>
@@ -106,14 +107,12 @@
     <xsd:element name="ErrorTranslatorFirst3CharMsgCode" type="xsd:string"></xsd:element>
     <xsd:complexType name="ErrorProcessorReqType">
     	<xsd:sequence>
-    		<xsd:element minOccurs="0" name="ProcessName"
-    			type="xsd:string">
-    		</xsd:element>
+    		<xsd:element minOccurs="0" name="ProcessName" type="xsd:string"></xsd:element>
     		<xsd:element name="GeneratedID" type="xsd:string"></xsd:element>
     		<xsd:element name="ErrorAppID" type="xsd:string"></xsd:element>
     		<xsd:element ref="ExceptionBody"></xsd:element>
 
-    		<xsd:element ref="cmd-soa:SOAEnvelope"></xsd:element>
+    		<!-- <xsd:element ref="cmd-soa:SOAEnvelope"></xsd:element> -->
     	</xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ErrorProcessorResType">

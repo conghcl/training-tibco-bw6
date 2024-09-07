@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.bidv.com/common/logging/enginelog/1.0" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidv.com/common/logging/enginelog/1.0">
+
+    <xsd:element name="EngineLog" type="EngineLogType"></xsd:element>
+    
+    <xsd:complexType name="EngineLogType">
+    	<xsd:sequence>
+    		<xsd:element name="ServiceName" type="xsd:string"></xsd:element>
+    		<xsd:element name="Message" type="xsd:string"></xsd:element>
+    		<xsd:element name="Category" type="xsd:string"></xsd:element>
+    		<xsd:element name="TrackingId" type="xsd:string" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="MsgPref" type="xsd:string"></xsd:element>
+</xsd:schema>

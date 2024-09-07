@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_yUNzsGtjEe-WS5bGNqRjYA" targetNamespace="http://tns.tibco.com/bw/composite/CommonModule" name="CommonModule" compositeext:version="1.0.0" compositeext:formatVersion="2">
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_yUNzsGtjEe-WS5bGNqRjYA" targetNamespace="http://tns.tibco.com/bw/composite/CommonModule" name="CommonModule" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:service xmi:id="_1D4qkG0GEe-WS5bGNqRjYA" name="ErrorProcessor" promote="ComponentErrorProcessService/ErrorProcessor">
+    <sca:interface.wsdl xmi:id="_1D4qlG0GEe-WS5bGNqRjYA" interface="http://www.example.org/wsdl/ErrorProcessor#wsdl.interface(ErrorProcessor)" scaext:wsdlLocation="../Service%20Descriptors/ErrorProcessor.wsdl"/>
+  </sca:service>
   <sca:property xmi:id="_yZYnkGtjEe-WS5bGNqRjYA" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_yZbD0GtjEe-WS5bGNqRjYA" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_yZbq4GtjEe-WS5bGNqRjYA" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
@@ -11,4 +14,10 @@
   <sca:property xmi:id="_yZf8UGtjEe-WS5bGNqRjYA" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
   <sca:property xmi:id="_yZhxgGtjEe-WS5bGNqRjYA" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_OTRGQGtpEe-WS5bGNqRjYA" name="/Common/RESTful/Port" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:component xmi:id="_1D1nQG0GEe-WS5bGNqRjYA" name="ComponentErrorProcessService" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_1D1nQW0GEe-WS5bGNqRjYA" processName="exceptionhandling.ErrorProcessService"/>
+    <sca:service xmi:id="_1D4DgG0GEe-WS5bGNqRjYA" name="ErrorProcessor">
+      <sca:interface.wsdl xmi:id="_1D4DgW0GEe-WS5bGNqRjYA" interface="http://www.example.org/wsdl/ErrorProcessor#wsdl.interface(ErrorProcessor)" scaext:wsdlLocation="../Service%20Descriptors/ErrorProcessor.wsdl"/>
+    </sca:service>
+  </sca:component>
 </sca:composite>

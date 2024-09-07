@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.bidv.com/common/logging/logrestfull/1.0" elementFormDefault="qualified" targetNamespace="http://www.bidv.com/common/logging/logrestfull/1.0">
+      
+  <element name="LogRestService" type="tns:LogResServiceType"/>
+      
+    
+  <complexType name="LogResServiceType">
+        	
+    <sequence>
+
+    	<element minOccurs="0" name="SourceAppID" type="string" />
+
+    	<element name="ProcessID" type="string" />
+
+    	<element name="Step" type="string" />
+
+    	<element name="ServiceName" type="string" />
+
+    	<element name="Operation" type="string" />
+
+    	<element name="LogMessage" type="string" />
+
+    	<element name="LogTime" type="dateTime" />
+
+    	<element name="TimeDuration" type="string" />
+
+    	<element name="SOAMessageID" type="string" />
+    </sequence>
+
+  </complexType>
+  
+</schema>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpws:process exitOnStandardFault="no"
-    name="global.vn.common.log.exceptionhandling.ErrorTranslator"
-    suppressJoinFailure="yes"
+    name="exceptionhandling.ErrorTranslator" suppressJoinFailure="yes"
     targetNamespace="http://www.bidv.com/soa/util/exceptionhandling/errortranslator"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:info="http://www.tibco.com/bw/process/info"
@@ -804,7 +803,10 @@ or ($Start/ns1:ErrorReport/ns1:MsgCode = 'SOA-CONVERT-FAIL') or  ($Start/ns1:Err
                                 <tibex:expression
                                     expression="$Start/ns1:ErrorReport/ns1:MsgCode = &quot;SOAPPLUGIN-100023&quot; &#xd;&#xa;or ($Start/ns1:ErrorReport/ns1:MsgCode = 'BW-JDBC-100014')&#xd;&#xa;or ($Start/ns1:ErrorReport/ns1:MsgCode = &quot;BWENGINE-100017&quot; and contains($Start/ns1:ErrorReport/ns1:ProcessStack, &quot;Services/Common/TemplateProcesses&quot;))&#xd;&#xa;or ($Start/ns1:ErrorReport/ns1:MsgCode= 'BWENGINE-100035') or ($Start/ns1:ErrorReport/ns1:MsgCode=&quot;401&quot;) or ($Start/ns1:ErrorReport/ns1:MsgCode=&quot;011&quot;)" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                             </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start/ns1:ErrorReport/ns1:MsgCode = "SOAPPLUGIN-100023" or ($Start/ns1:ErrorReport/ns1:MsgCode = 'BW-JDBC-100014')or ($Start/ns1:ErrorReport/ns1:MsgCode = "BWENGINE-100017" and contains($Start/ns1:ErrorReport/ns1:ProcessStack, "Services/Common/TemplateProcesses"))or ($Start/ns1:ErrorReport/ns1:MsgCode= 'BWENGINE-100035') or ($Start/ns1:ErrorReport/ns1:MsgCode="401") or ($Start/ns1:ErrorReport/ns1:MsgCode="011")]]></bpws:transitionCondition>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start/ns1:ErrorReport/ns1:MsgCode = "SOAPPLUGIN-100023" 
+or ($Start/ns1:ErrorReport/ns1:MsgCode = 'BW-JDBC-100014')
+or ($Start/ns1:ErrorReport/ns1:MsgCode = "BWENGINE-100017" and contains($Start/ns1:ErrorReport/ns1:ProcessStack, "Services/Common/TemplateProcesses"))
+or ($Start/ns1:ErrorReport/ns1:MsgCode= 'BWENGINE-100035') or ($Start/ns1:ErrorReport/ns1:MsgCode="401") or ($Start/ns1:ErrorReport/ns1:MsgCode="011")]]></bpws:transitionCondition>
                         </bpws:source>
                         <bpws:source linkName="StartToMapper">
                             <tibex:DesignExpression>
